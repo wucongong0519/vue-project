@@ -2,15 +2,15 @@
   <div class='index'>
       <el-container style="height: 500px; border: 1px solid #eee">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-          <el-menu :default-openeds="['1']" router background-color="#333" text-color="#fff">
-            <el-menu-item index="/home">
+          <el-menu default-active="/" :default-openeds="['1']" router background-color="#333" text-color="#fff">
+            <el-menu-item index="/">
               <i class="el-icon-menu"></i>
               vuex-系统首页
             </el-menu-item>
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-message"></i>账号管理</template>
                 <el-menu-item index="userlist">账号列表</el-menu-item>
-                <el-menu-item index="adduser">添加账号</el-menu-item>
+                <el-menu-item index="adduser">VIP列表</el-menu-item>
                 <el-menu-item index="pwdedit">修改密码</el-menu-item>
             </el-submenu>
             <el-submenu index="2">
@@ -32,11 +32,11 @@
 
         <el-container>
           <el-header style="text-align: right; font-size: 12px">
-            <el-dropdown>
+            <el-dropdown @command="handleCommand">
               <i class="el-icon-setting" style="margin-right: 15px"></i>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>个人信息</el-dropdown-item>
-                <el-dropdown-item>退出登录</el-dropdown-item>
+                <el-dropdown-item command="person">个人信息</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <span>王小虎</span>
@@ -68,6 +68,16 @@ export default {
           address: '上海市普陀区金沙江路 1518 弄'
         }
       ]
+    }
+  },
+  methods: {
+    handleCommand (command) {
+      console.log(command)
+      if (command === 'person') {
+        this.$router.push('/')
+      } else if (command === 'logout') {
+        this.$router.push('/login')
+      }
     }
   }
 }

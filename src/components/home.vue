@@ -5,7 +5,7 @@
         <span>用户信息</span>
         <el-button style="float: right; padding: 3px 0" type="text"></el-button>
       </div>
-      <div v-for="(o,key) in $store.state.userinfo" :key="o" class="text item">
+      <div v-for="(o,key) in userinfo" :key="o" class="text item">
         {{ key +":"+ o }}
 
       </div>
@@ -14,12 +14,12 @@
   </div>
 </template>
 <script>
-// import mapState from 'vuex'
+import { mapState } from 'vuex'
 export default {
   computed: {
-    // ...mapState({
-    //   userinfo: 'userinfo'
-    // })
+    ...mapState([
+      'userinfo'
+    ])
   }
 }
 </script>
@@ -41,6 +41,6 @@ export default {
     content: "";
   }
   .clearfix:after {
-    clear: both
+    clear: both;
   }
 </style>
