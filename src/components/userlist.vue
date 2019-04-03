@@ -39,14 +39,14 @@
                   trigger='click'
                   placement="top"
                   :ref="`popover-${scope.$index}`"
-                  v-model="scope.row.visible"
+                  class="popoverStyle"
                   >
                   <p>确定要删除用户？</p>
                   <div style="text-align: right; margin: 0">
-                    <el-button size="mini" type="text" @click="scope._self.$refs[`popover-${scope.$index}`].doClose()">{{scope.row.visible}}取消</el-button>
-                    <el-button type="primary" size="mini" @click="handlePopover(scope.row.visible,scope.$index,1)">确定</el-button>
+                    <el-button size="mini" type="text" @click="scope._self.$refs[`popover-${scope.$index}`].doClose()">取消</el-button>
+                    <el-button type="primary" size="mini" @click="handlePopover(scope.row.visible,scope.$index)">确定</el-button>
                   </div>
-                  <el-button slot="reference"  @click="couponClick(scope.$index, scope.row)">删除</el-button>
+                  <el-button slot="reference"  class="deleteBtn" @click="couponClick(scope.$index, scope.row)">删除</el-button>
                 </el-popover>
               </template>
             </template>
@@ -114,13 +114,14 @@ export default {
     ...mapActions({
       getUserlist: 'GET_USERINFO'
     }),
-    handlePopover (visible, index, button) {
+    handlePopover (visible, index) {
       // console.log(visible)
       // console.log(index)
       // console.log(this.userlist[index])
       // this.$set(this.userlist[index], visible, false)
       // console.log(this.userlist[index])
       // this.userlist[index].visible = !visible
+      this.tableData.splice(index, 1)
     },
     handleEdit (id) {
       console.log(id)
@@ -145,9 +146,9 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .userlist{
-  text-align: left;
+  text-align: left !important;
 }
 .text {
     font-size: 14px;
@@ -164,5 +165,11 @@ export default {
   }
   .clearfix:after {
     clear: both
+  }
+  .deleteBtn{
+  border:none !important;
+  color:#409EFF !important;
+  padding:0 !important;
+  font-size: 12px;
   }
 </style>
