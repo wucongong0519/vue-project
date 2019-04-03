@@ -38,13 +38,15 @@
                 <el-popover
                   trigger='click'
                   placement="top"
-                  v-model="visible2">
+                  :ref="`popover-${scope.$index}`"
+                  v-model="scope.row.visible"
+                  >
                   <p>确定要删除用户？</p>
                   <div style="text-align: right; margin: 0">
-                    <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
-                    <el-button type="primary" size="mini" @click="visible2 = false">确定</el-button>
+                    <el-button size="mini" type="text" @click="scope._self.$refs[`popover-${scope.$index}`].doClose()">{{scope.row.visible}}取消</el-button>
+                    <el-button type="primary" size="mini" @click="handlePopover(scope.row.visible,scope.$index,1)">确定</el-button>
                   </div>
-                  <el-button slot="reference" @click="visible2 = !visible2">删除</el-button>
+                  <el-button slot="reference"  @click="couponClick(scope.$index, scope.row)">删除</el-button>
                 </el-popover>
               </template>
             </template>
@@ -89,7 +91,8 @@ export default {
       },
       title: '',
       formLabelWidth: '120px',
-      visible2: false
+      visible2: false,
+      myPopover: 0
     }
   },
   computed: {
@@ -100,13 +103,25 @@ export default {
   created () {
     this.getUserlist().then(res => {
       // console.log(res)
-      this.tableData = this.userlist
+      let newlist = this.userlist.map(item => {
+        item.visible = false
+        return item
+      })
+      this.tableData = newlist
     })
   },
   methods: {
     ...mapActions({
       getUserlist: 'GET_USERINFO'
     }),
+    handlePopover (visible, index, button) {
+      // console.log(visible)
+      // console.log(index)
+      // console.log(this.userlist[index])
+      // this.$set(this.userlist[index], visible, false)
+      // console.log(this.userlist[index])
+      // this.userlist[index].visible = !visible
+    },
     handleEdit (id) {
       console.log(id)
       if (id) {
@@ -118,6 +133,11 @@ export default {
         this.form = {}
         this.title = '添加用户'
       }
+    },
+    couponClick (id, row) {
+      console.log(id)
+      console.log(row)
+      this.myPopover = id
     },
     handleDelete (id) {
       console.log('删除' + id)
